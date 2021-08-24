@@ -8,7 +8,13 @@ class Industry(models.Model):
     class Meta:
         db_table = 'Industry'
 
-    name = models.CharField(max_length = 200)
+    options = (
+        ('technology', 'Technology'),
+        ('consumer', 'Consumer'),
+        ('health', 'Health')
+    )
+
+    name = models.CharField(max_length = 200, choices=options, default='technology')
 
     def __str__(self):
         return self.name
@@ -19,7 +25,7 @@ class Stock(models.Model):
         db_table = 'Stock'
         ordering = ('-date',)
 
-    industry = models.ForeignKey(Industry, on_delete=models.PROTECT, default=1)
+    industry = models.ForeignKey(Industry, on_delete=models.PROTECT)
 
     stock_id = models.CharField(max_length = 255)
     date = models.DateField()

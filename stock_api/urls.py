@@ -1,5 +1,5 @@
 from django.urls import path
-# from .views import PostList, PostDetail
+from .views import StockList, StockDetail, IndustryList
 
 # Url path pattern reference: 
 # https://www.webforefront.com/django/accessurlparamstemplates.html
@@ -7,6 +7,7 @@ from django.urls import path
 app_name = 'stock_api'
 
 urlpatterns = [
-    # path('<str:stock_id>/<slug:date_slug>/', PostDetail.as_view(), name='detailcreate'),
-    # path('', PostList.as_view(), name='listcreate')
+    path('stock/<int:pk>', StockDetail.as_view(), name='detailcreate'),
+    path('stock', StockList.as_view(), name='listcreate'),
+    path('industry', IndustryList.as_view(), name='listcreate')
 ]
