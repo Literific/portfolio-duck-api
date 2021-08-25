@@ -1,6 +1,10 @@
 # notes for useful commands and tips
+## Project Details
 
-## HTTP Status Response Codes
+- Build Login facility in React JS, we are going to store the session (or state) in the react application.
+- if not, everytime we make a request, we have to login again and again.
+## Django Rest Framework Series - Build a Django app and React Front-End Part I
+### HTTP Status Response Codes
 
 - 2xx Success
 - 3xx Redirections
@@ -9,7 +13,7 @@
 - 5xx Server Error
     - 500 Internal Server Error
 
-## Restful APIs
+### Restful APIs
 
     - a base URI https://ex.com/api
     - HTTP methods (GET, POST, PUT, PATCH and DELETE)
@@ -25,14 +29,7 @@
         - https://site.com/api/user/1 
         - GET -> retrieve user 1 data
         - DELETE -> delete user 1
-    - xx
-
-## Project Details
-
-- Build Login facility in React JS, we are going to store the session (or state) in the react application.
-- if not, everytime we make a request, we have to login again and again.
-
-## Useful commands
+### Useful commands
 
 ```
 # create virtual environment 
@@ -65,3 +62,16 @@ coverage run --omit='*/venv/*' manage.py test
 coverage html
 pip install djangorestframework
 ```
+
+### Permissions 
+- more in-depth in the second tutorial
+- https://www.django-rest-framework.org/api-guide/permissions/#setting-the-permission-policy
+- REST_FRAMEWORK = {} in `settings.py`
+
+### tests
+- test for stock
+- tests for stock_api
+
+
+## Next Tutorials to Try
+[Django rest framework tutorials](https://www.django-rest-framework.org/tutorial/1-serialization/)
