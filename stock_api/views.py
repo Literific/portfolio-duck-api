@@ -1,12 +1,15 @@
 from rest_framework import generics 
-from stock.models import Stock, Industry
-from .serializers import StockSerializer, IndustrySerializer
+from stock.models import Stock, Industry, Portfolio, Brokerage
+from .serializers import StockSerializer, IndustrySerializer, PortfolioSerializer, BrokerageSerializer
+from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 
 
 # https://www.django-rest-framework.org/
 # what data do you want to serialize from database?
 # https://www.django-rest-framework.org/tutorial/1-serialization/
 class StockList(generics.ListCreateAPIView):
+    # add authentication level 
+    permission_classes = [DjangoModelPermissions]
     queryset = Stock.objects.all()
     # queryset = Stock.stockobjects.all() # using custom manager
     serializer_class = StockSerializer
@@ -19,6 +22,13 @@ class IndustryList(generics.ListCreateAPIView):
     queryset = Industry.objects.all()
     serializer_class = IndustrySerializer
 
+class PortfolioList(generics.ListCreateAPIView):
+    queryset = Portfolio.objects.all()
+    serializer_class = PortfolioSerializer
+
+class BrokerageList(generics.ListCreateAPIView):
+    queryset = Brokerage.objects.all()
+    serializer_class = BrokerageSerializer
 
 
 """ Concrete View Classes

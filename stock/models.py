@@ -25,7 +25,7 @@ class Stock(models.Model):
         db_table = 'Stock'
         ordering = ('-date',)
 
-    industry = models.ForeignKey(Industry, on_delete=models.PROTECT)
+    industry = models.ForeignKey(Industry, on_delete=models.PROTECT, related_name='Stock')
 
     stock_id = models.CharField(max_length = 255)
     date = models.DateField()
@@ -38,6 +38,9 @@ class Stock(models.Model):
     twentydayavg = models.FloatField()
     rsi = models.FloatField()
     lstm = models.FloatField()
+
+    def __str__(self):
+        return self.stock_id
 
     
 class Brokerage(models.Model):
@@ -62,9 +65,34 @@ class Brokerage(models.Model):
         return self.name
 
     name = models.CharField(
-        max_length = 200, choices=options, default='fidelity')
+        max_length = 200, choices=options, default='others')
+    opened_at = models.DateField(default='2020-01-01')
+
     objects = models.Manager() # default manager
     brokerageobjects = BrokerageObjects() # custom manager
 
+
+# on how `on_delete` works - great explanation!
+#  https://stackoverflow.com/a/38389488
+class Portfolio(models.Model):
+    class Meta: 
+        db_table = 'Portfolio'
+
+    user = models.ForeignKey(
+        User, on_delete= models.CASCADE, related_name='Portfolio'
+    )
+
+
+    brokerage = models.ForeignKey(
+        Brokerage, on_delete=models.SET_DEFAULT, default='others', related_name='Portfolio'
+    )
+
+    stock_id = models.ForeignKey(
+        Stock, on_delete=models.SET_DEFAULT, default='cash', related_name='Portfolio'
+    )
+
+    number_of_shares = models.FloatField()
+    avg_cost_of_shares = models.FloatField()
+    date_updated = models.DateField()
 
 
