@@ -96,3 +96,5 @@ class Portfolio(models.Model):
     date_updated = models.DateField()
 
 
+
+
