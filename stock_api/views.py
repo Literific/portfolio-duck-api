@@ -1,7 +1,7 @@
 from rest_framework import generics 
 from stock.models import Stock, Industry, Portfolio, Brokerage
 from .serializers import StockSerializer, IndustrySerializer, PortfolioSerializer, BrokerageSerializer
-from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser, DjangoModelPermissions
+from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser, DjangoModelPermissions, IsAuthenticatedOrReadOnly
 
 
 class PortfolioUserWritePermission(BasePermission):
@@ -20,7 +20,7 @@ class PortfolioUserWritePermission(BasePermission):
 # https://www.django-rest-framework.org/tutorial/1-serialization/
 class StockList(generics.ListCreateAPIView):
     # add authentication level 
-    permission_classes = [DjangoModelPermissions]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Stock.objects.all()
     # queryset = Stock.stockobjects.all() # using custom manager
     serializer_class = StockSerializer
