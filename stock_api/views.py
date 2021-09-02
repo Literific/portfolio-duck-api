@@ -1,12 +1,26 @@
 from rest_framework import generics 
-from stock.models import Stock, Industry
-from .serializers import StockSerializer, IndustrySerializer
+from stock.models import Stock, Industry, Portfolio, Brokerage
+from .serializers import StockSerializer, IndustrySerializer, PortfolioSerializer, BrokerageSerializer
+from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser, DjangoModelPermissions, IsAuthenticatedOrReadOnly
+
+
+class PortfolioUserWritePermission(BasePermission):
+    message = "Editing portfolio components is restricted to the account holder only."
+
+    def has_object_permission(self, request, view, obj):
+        # if any of options are GET, OPTION, or HEAD
+        if request.method in SAFE_METHODS:
+            return True
+
+        return obj.user == request.user
 
 
 # https://www.django-rest-framework.org/
 # what data do you want to serialize from database?
 # https://www.django-rest-framework.org/tutorial/1-serialization/
 class StockList(generics.ListCreateAPIView):
+    # add authentication level 
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Stock.objects.all()
     # queryset = Stock.stockobjects.all() # using custom manager
     serializer_class = StockSerializer
@@ -18,7 +32,35 @@ class StockDetail(generics.RetrieveDestroyAPIView):
 class IndustryList(generics.ListCreateAPIView):
     queryset = Industry.objects.all()
     serializer_class = IndustrySerializer
+class PortfolioList(generics.ListCreateAPIView):
+    permission_classes = [DjangoModelPermissions]
+    queryset = Portfolio.objects.all()
+    serializer_class = PortfolioSerializer
 
+# https://www.django-rest-framework.org/api-guide/filtering/
+# Filtering against query parameters
+# http://example.com/api/purchases?username=denvercoder9
+class PortfolioDetail(generics.RetrieveUpdateDestroyAPIView, PortfolioUserWritePermission):
+    # only the user of the portfolio can update the portfolio
+    permission_classes = [PortfolioUserWritePermission]
+    queryset = Portfolio.objects.all()
+    serializer_class = PortfolioSerializer
+
+    # def get_queryset(self):
+    #     """
+    #     This view should return a list of all the stocks
+    #     for the currently authenticated user
+    #     """
+    #     queryset = Portfolio.objects.all()
+    #     this_user = self.request.query_params.get('user')
+    #     print("this_user", this_user)
+    #     if this_user is not None:
+    #         queryset = queryset.filter(user=this_user)
+    #     return queryset
+
+class BrokerageList(generics.ListCreateAPIView):
+    queryset = Brokerage.objects.all()
+    serializer_class = BrokerageSerializer
 
 
 """ Concrete View Classes

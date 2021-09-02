@@ -3,15 +3,24 @@
 
 - Build Login facility in React JS, we are going to store the session (or state) in the react application.
 - if not, everytime we make a request, we have to login again and again.
-## Django Rest Framework Series - Build a Django app and React Front-End Part I
+
+## Big Picture
+
+- [x] Built a simple RestAPI with Django
+- [x] Created a React application consume the API
+- [] Review, apply, and build custom user permissions
+
+## Django Rest Framework Series - Build a Django app and React Front-End - Part I
+
 ### HTTP Status Response Codes
 
 - 2xx Success
 - 3xx Redirections
 - 4xx Client Error
-    - 404 Not Found
+  - 404 Not Found
+
 - 5xx Server Error
-    - 500 Internal Server Error
+  - 500 Internal Server Error
 
 ### Restful APIs
 
@@ -28,7 +37,9 @@
     - Service respond based upon request type:
         - https://site.com/api/user/1 
         - GET -> retrieve user 1 data
-        - DELETE -> delete user 1
+        - DELETE -
+        > delete user 1
+
 ### Useful commands
 
 ```
@@ -62,15 +73,45 @@ coverage run --omit='*/venv/*' manage.py test
 coverage html
 pip install djangorestframework
 ```
+### Cors Middleware 
+https://pypi.org/project/django-cors-headers/
+```
+pip install django-cors-headers
 
-### Permissions 
+# add 'corsheaders' in INSTALLED_APPS in settings.py
+# add 'corsheaders.middleware.CorsMiddleware' in settings.py
+# 
+```
+
+### Permissions
+
 - more in-depth in the second tutorial
 - https://www.django-rest-framework.org/api-guide/permissions/#setting-the-permission-policy
 - REST_FRAMEWORK = {} in `settings.py`
 
 ### tests
+
 - test for stock
 - tests for stock_api
+
+## Django Rest Framework Series - Permissions and Custom Permissions - Part II
+
+- project level permissions
+- Django users/group permissions
+- View level permissions
+- Object level permissions
+- Developing custom permissions
+
+### Permissions
+- View -> GET
+- Delete -> DELETE
+- Change -> PUT PATCH
+- Add -> POST
+
+
+
+
+
 
 
 ## Next Tutorials to Try

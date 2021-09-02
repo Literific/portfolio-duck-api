@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('stock.urls', namespace = 'stock')),
     path('api/', include('stock_api.urls', namespace = 'stock_api')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
